@@ -1,12 +1,13 @@
 //imports the Web3 API
 import Web3 from 'web3';
+// var contract = new web3js.eth.Contract(contractABI, contractAddress);
 
 /**
- * creates & exports new instance for 
+ * creates & exports new instance for
  * Web3 using provided service by Metamask.
  */
+// let currentWeb3 = new Web3("https://ropsten.infura.io");
 let currentWeb3;
-
 if (window.ethereum) {
     let instance = new Web3(window.ethereum);
     try {

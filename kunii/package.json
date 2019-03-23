@@ -1,12 +1,12 @@
 {
-  "name": "instagram_v1",
+  "name": "photo-gluste",
   "description": "A Vue.js project",
   "version": "1.0.0",
   "author": "Markus Viola <markus.xamuel.viola@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --mode development --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "cross-env mode=production webpack --progress --hide-modules"
   },
   "dependencies": {
     "bootstrap": "^4.3.1",

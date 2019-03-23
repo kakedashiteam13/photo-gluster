@@ -41,7 +41,8 @@
                 <span class="photo-card__meta-text--value">{{ item.shutterSpeedValue }}</span>
                 <span class="photo-card__meta-text">ISO</span>
                 <span class="photo-card__meta-text--value">{{ item.iso }}</span>
-                {{ item.userName }}
+                <br>
+                <span class="username">@{{ item.userName }}</span>
               </p>
             </b-card>
           </li>
@@ -252,5 +253,13 @@ input[type="file"] {
   border: none;
 }
 .photo-card__meta-text {
+  color: #666;
+}
+.photo-card__meta-text--value {
+  color: #222;
+  font-weight: bold;
+}
+.username {
+  color: #666;
 }
 </style>

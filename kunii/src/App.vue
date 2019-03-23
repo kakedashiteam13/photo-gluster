@@ -44,24 +44,22 @@
 
       <!-- Posts Interface -->
       <ul class="home-list">
-        <li
-          v-for="item in this.$root.$data.currentPosts"
-          :key="item.key"
-          :item="item"
-        >
+        <section class="photo-contents">
+        <li v-for="item in this.$root.$data.currentPosts" :key="item.key" :item="item">
           <!-- Card UI for post's image & caption text -->
           <b-card
             border-variant="secondary"
             :img-src="item.src"
           >
-            <p class="home-card-text">
+            <p >
+              <span class="photo-card__meta-text--value">F{{ item.fNumber }}</span>
+              <span class="photo-card__meta-text--title">SS{{ item.shutterSpeedValue }}</span>
+              <span class="photo-card__meta-text--title">ISO{{ item.iso }}</span>
               {{ item.userName }}
-              {{ item.shutterSpeedValue }}
-              {{ item.fNumber }}
-              {{ item.iso }}
             </p>
           </b-card>
         </li>
+        </section>
       </ul>
     </div>
   </div>

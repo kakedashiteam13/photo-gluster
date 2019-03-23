@@ -8,57 +8,36 @@
           <h4>share your memories.</h4>
 
           <!-- Form for file choose, caption text and submission -->
-          <form
-            class="margin-sm"
-            @submit.stop.prevent="handleSubmit"
-          >
+          <form class="margin-sm" @submit.stop.prevent="handleSubmit">
             <div class="border-style">
-              <b-form-file
-                plain
-                @change="captureFile"
-              />
+              <b-form-file plain @change="captureFile"/>
             </div>
             <input type="text" v-model="userName">
             <input type="text" v-model="shutterSpeedValue">
             <input type="text" v-model="fNumber">
             <input type="text" v-model="iso">
-            <b-button
-              class="margin-xs"
-              variant="secondary"
-              @click="handleOk"
-            >
-              Upload
-            </b-button>
+            <b-button class="margin-xs" variant="secondary" @click="handleOk">Upload</b-button>
           </form>
         </div>
-        <div
-          v-if="this.$root.$data.loading === true"
-          style="margin-top: 10%; margin-bottom: 5%"
-        >
-          <img
-            class="upload-load"
-            src="https://media.giphy.com/media/2A6xoqXc9qML9gzBUE/giphy.gif"
-          >
+        <div v-if="this.$root.$data.loading === true" style="margin-top: 10%; margin-bottom: 5%">
+          <img class="upload-load" src="https://media.giphy.com/media/2A6xoqXc9qML9gzBUE/giphy.gif">
         </div>
       </div>
 
       <!-- Posts Interface -->
       <ul class="home-list">
         <section class="photo-contents">
-        <li v-for="item in this.$root.$data.currentPosts" :key="item.key" :item="item">
-          <!-- Card UI for post's image & caption text -->
-          <b-card
-            border-variant="secondary"
-            :img-src="item.src"
-          >
-            <p >
-              <span class="photo-card__meta-text--value">F{{ item.fNumber }}</span>
-              <span class="photo-card__meta-text--title">SS{{ item.shutterSpeedValue }}</span>
-              <span class="photo-card__meta-text--title">ISO{{ item.iso }}</span>
-              {{ item.userName }}
-            </p>
-          </b-card>
-        </li>
+          <li v-for="item in this.$root.$data.currentPosts" :key="item.key" :item="item">
+            <!-- Card UI for post's image & caption text -->
+            <b-card border-variant="secondary" :img-src="item.src">
+              <p>
+                <span class="photo-card__meta-text--value">F{{ item.fNumber }}</span>
+                <span class="photo-card__meta-text--title">SS{{ item.shutterSpeedValue }}</span>
+                <span class="photo-card__meta-text--title">ISO{{ item.iso }}</span>
+                {{ item.userName }}
+              </p>
+            </b-card>
+          </li>
         </section>
       </ul>
     </div>
@@ -66,19 +45,19 @@
 </template>
 
 <script>
-import ipfs from './contracts/ipfs';
-import contract from './contracts/contractInstance';
+import ipfs from "./contracts/ipfs";
+import contract from "./contracts/contractInstance";
 
 export default {
-  name: 'App',
+  name: "App",
   // data variables
   data() {
     return {
-      buffer: '',
-      userName: '',
-      shutterSpeedValue: '',
-      fNumber: '',
-      iso: '',
+      buffer: "",
+      userName: "",
+      shutterSpeedValue: "",
+      fNumber: "",
+      iso: ""
     };
   },
   methods: {
@@ -86,13 +65,13 @@ export default {
      * convert it to ArrayBuffer.
      */
     captureFile(file) {
-     const reader = new FileReader();
-      if (typeof file !== 'undefined') {
+      const reader = new FileReader();
+      if (typeof file !== "undefined") {
         reader.readAsArrayBuffer(file.target.files[0]);
         reader.onloadend = async () => {
           this.buffer = await this.convertToBuffer(reader.result);
         };
-      } else this.buffer = '';
+      } else this.buffer = "";
     },
     /**
      * converts ArrayBuffer to
@@ -113,41 +92,61 @@ export default {
       let shutterSpeedValueHash;
       let fNumberHash;
       let isoHash;
-      ipfs.add(this.buffer)
-        .then((hashedImg) => {
+      ipfs
+        .add(this.buffer)
+        .then(hashedImg => {
           imgHash = hashedImg[0].hash;
           console.log("imgHash: " + imgHash);
           return this.convertToBuffer(this.userName);
-        }).then(bufferDesc => ipfs.add(bufferDesc)
-          .then(hashedName => {
-            userNameHash = hashedName[0].hash
+        })
+        .then(bufferDesc =>
+          ipfs.add(bufferDesc).then(hashedName => {
+            userNameHash = hashedName[0].hash;
             return this.convertToBuffer(this.shutterSpeedValue);
-        })).then(bufferDesc => ipfs.add(bufferDesc)
-          .then(hashedshutterSpeedValue => {
-            shutterSpeedValueHash = hashedshutterSpeedValue[0].hash
+          })
+        )
+        .then(bufferDesc =>
+          ipfs.add(bufferDesc).then(hashedshutterSpeedValue => {
+            shutterSpeedValueHash = hashedshutterSpeedValue[0].hash;
             return this.convertToBuffer(this.fNumber);
-        })).then(bufferDesc => ipfs.add(bufferDesc)
-          .then(hashedfNumber => {
-            fNumberHash = hashedfNumber[0].hash
+          })
+        )
+        .then(bufferDesc =>
+          ipfs.add(bufferDesc).then(hashedfNumber => {
+            fNumberHash = hashedfNumber[0].hash;
             return this.convertToBuffer(this.iso);
-        })).then(bufferDesc => ipfs.add(bufferDesc)
-          .then(hashedIso => {
-            isoHash = hashedIso[0].hash
-        })).then(() => {
+          })
+        )
+        .then(bufferDesc =>
+          ipfs.add(bufferDesc).then(hashedIso => {
+            isoHash = hashedIso[0].hash;
+          })
+        )
+        .then(() => {
           this.$root.contract.methods
-            .sendHash(imgHash, userNameHash, shutterSpeedValueHash, fNumberHash, isoHash)
-            .send({ from: this.$root.currentAccount },
+            .sendHash(
+              imgHash,
+              userNameHash,
+              shutterSpeedValueHash,
+              fNumberHash,
+              isoHash
+            )
+            .send(
+              { from: this.$root.currentAccount },
               (error, transactionHash) => {
-                if (typeof transactionHash !== 'undefined') {
-                  console.log('Storing on Ethereum...');
-                  this.$root.contract.once('NewPost',
+                if (typeof transactionHash !== "undefined") {
+                  console.log("Storing on Ethereum...");
+                  this.$root.contract.once(
+                    "NewPost",
                     { from: this.$root.currentAccount },
                     () => {
                       this.$root.getPosts();
-                      console.log('Operation Finished! Refetching...');
-                    });
+                      console.log("Operation Finished! Refetching...");
+                    }
+                  );
                 } else this.$root.loading = false;
-              });
+              }
+            );
         });
     },
     /**
@@ -156,12 +155,12 @@ export default {
      */
     handleOk() {
       if (!this.buffer || !this.userName) {
-        alert('Please fill in the information.');
+        alert("Please fill in the information.");
       } else {
         this.onSubmit();
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -181,15 +180,14 @@ export default {
 }
 .card img {
   object-fit: cover;
-  height: 500px;
-  width: 500px;
+  width: 240px;
 }
 .card {
   text-align: left;
-  width: 500px;
-  margin-bottom: 20px;
+  margin: 20px;
+  border: none;
 }
-.home-list{
+.home-list {
   padding: 0;
   list-style: none;
 }

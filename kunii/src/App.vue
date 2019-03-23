@@ -55,6 +55,7 @@
 <script>
 import ipfs from "./contracts/ipfs";
 import contract from "./contracts/contractInstance";
+import web3js from "./contracts/web3";
 
 export default {
   name: "App",
@@ -93,7 +94,7 @@ export default {
      * and retrieves the hashes, then store
      * it in the Contract via sendHash().
      */
-    onSubmit() {
+    async onSubmit() {
       this.$root.loading = true;
       let imgHash;
       let userNameHash;
@@ -130,8 +131,8 @@ export default {
             isoHash = hashedIso[0].hash;
           })
         )
-        .then(() => {
-          this.$root.contract.methods
+        .then(async () => {
+            const query = this.$root.contract.methods
             .sendHash(
               imgHash,
               userNameHash,
@@ -139,22 +140,32 @@ export default {
               fNumberHash,
               isoHash
             )
-            .send(
-              { from: this.$root.currentAccount },
-              (error, transactionHash) => {
-                if (typeof transactionHash !== "undefined") {
-                  console.log("Storing on Ethereum...");
-                  this.$root.contract.once(
-                    "NewPost",
-                    { from: this.$root.currentAccount },
-                    () => {
-                      this.$root.getPosts();
-                      console.log("Operation Finished! Refetching...");
-                    }
-                  );
-                } else this.$root.loading = false;
-              }
-            );
+            //Sender Address
+            var process_env_address = "0xbF49a6fF10E9C4Cf5fd9942F6a5C7fB40FCc0Fa0"
+            //Sender Privatekey
+            var process_env_privkey = "0xCF3F5DB122AF0326A9D2308898F6CA70325448EB62CB800A51B8981F9266DBB4"
+
+            const contractAddress = "0x8e4d8e49b941badc9e3e8eb27899042af1e15577";
+            const encodedABI = query.encodeABI()
+            console.log(encodedABI)
+            const signedTx = await web3js.eth.accounts.signTransaction(
+              {
+                data: encodedABI,
+                from: process_env_address,
+                gas: 600000,
+                gasPrice: 10000000000,
+                to: contractAddress,
+              },
+                process_env_privkey,
+                false,
+              );
+            console.log(signedTx)
+            await web3js.eth.sendSignedTransaction(signedTx.rawTransaction).then(function(val){
+              console.log(val)
+              console.log("Done!")
+            });
+            console.log("Operation Finished! Refetching...");
+            this.$root.getPosts();
         });
     },
     /**

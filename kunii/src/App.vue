@@ -35,9 +35,12 @@
             <!-- Card UI for post's image & caption text -->
             <b-card border-variant="secondary" :img-src="item.src">
               <p>
-                <span class="photo-card__meta-text--value">F{{ item.fNumber }}</span>
-                <span class="photo-card__meta-text--title">SS{{ item.shutterSpeedValue }}</span>
-                <span class="photo-card__meta-text--title">ISO{{ item.iso }}</span>
+                <span class="photo-card__meta-text">F</span>
+                <span class="photo-card__meta-text--value">{{ item.fNumber }}</span>
+                <span class="photo-card__meta-text">SS</span>
+                <span class="photo-card__meta-text--value">{{ item.shutterSpeedValue }}</span>
+                <span class="photo-card__meta-text">ISO</span>
+                <span class="photo-card__meta-text--value">{{ item.iso }}</span>
                 {{ item.userName }}
               </p>
             </b-card>
@@ -183,14 +186,18 @@ export default {
   height: 50px;
 }
 .card img {
-  object-fit: fill;
+  object-fit: cover;
   width: 240px;
+  height: 240px;
 }
 .card {
   text-align: left;
   margin: 20px;
   border: none;
   width: 240px;
+}
+.card-body {
+  padding: 8px;
 }
 .home-list {
   padding: 0;
@@ -207,7 +214,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin: 0 auto;
-  width: 640px;
+  width: 720px;
 }
 input[type="file"] {
   border: none;
@@ -216,10 +223,11 @@ input[type="file"] {
   background: #eee;
 }
 .input-form {
+  margin-right: 4px;
   height: 28px;
-  padding: 2px;
+  padding: 8px;
   background: #eee;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 .upload-load {
   width: 50px;
@@ -242,5 +250,7 @@ input[type="file"] {
   background: #5cadf0;
   color: #fff;
   border: none;
+}
+.photo-card__meta-text {
 }
 </style>

@@ -4,19 +4,23 @@
       <!-- Upload Interface -->
       <div id="upload">
         <div v-if="this.$root.$data.loading === false">
-          <h1>Post Here!</h1>
-          <h4>share your memories.</h4>
+          <img src="../assets/image/logo.png" alt="ロゴ">
 
           <!-- Form for file choose, caption text and submission -->
           <form class="margin-sm" @submit.stop.prevent="handleSubmit">
             <div class="border-style">
               <b-form-file plain @change="captureFile"/>
             </div>
-            <input type="text" v-model="userName">
-            <input type="text" v-model="shutterSpeedValue">
-            <input type="text" v-model="fNumber">
-            <input type="text" v-model="iso">
-            <b-button class="margin-xs" variant="secondary" @click="handleOk">Upload</b-button>
+            <input type="text" v-model="userName" class="input-form" placeholder="ニックネーム">
+            <input
+              type="text"
+              v-model="shutterSpeedValue"
+              class="input-form"
+              placeholder="シャッタースピード"
+            >
+            <input type="text" v-model="fNumber" class="input-form" placeholder="F値">
+            <input type="text" v-model="iso" class="input-form" placeholder="ISO値">
+            <b-button class="margin-xs" variant="secondary" @click="handleOk">投稿</b-button>
           </form>
         </div>
         <div v-if="this.$root.$data.loading === true" style="margin-top: 10%; margin-bottom: 5%">
@@ -179,13 +183,14 @@ export default {
   height: 50px;
 }
 .card img {
-  object-fit: cover;
+  object-fit: fill;
   width: 240px;
 }
 .card {
   text-align: left;
   margin: 20px;
   border: none;
+  width: 240px;
 }
 .home-list {
   padding: 0;
@@ -201,8 +206,20 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-bottom: 5%;
-  width: 500px;
+  margin: 0 auto;
+  width: 640px;
+}
+input[type="file"] {
+  border: none;
+}
+.form-control-file {
+  background: #eee;
+}
+.input-form {
+  height: 28px;
+  padding: 2px;
+  background: #eee;
+  border-radius: 2px;
 }
 .upload-load {
   width: 50px;
@@ -215,6 +232,15 @@ export default {
   margin-top: 7%;
 }
 .border-style {
-  border: 1px solid #ced4da;
+  margin: 0 0 16px;
+}
+.btn-secondary {
+  background: #2196f3;
+  border: none;
+}
+.btn-secondary:hover {
+  background: #5cadf0;
+  color: #fff;
+  border: none;
 }
 </style>

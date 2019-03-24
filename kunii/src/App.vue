@@ -236,7 +236,9 @@ export default {
   width: 720px;
 }
 input[type="file"] {
-  border: none;
+  border-radius: 4px;
+  margin: 0 auto;
+  width: 673px;
 }
 .form-control-file {
   background: #eee;
@@ -245,9 +247,20 @@ input[type="file"] {
   margin-right: 4px;
   height: 28px;
   padding: 8px;
-  background: #eee;
+  background: #f5f8f9;
+  border: #f5f8f9 1px solid;
   border-radius: 4px;
 }
+
+.input-form::placeholder {
+  color: #a6a6a6;
+}
+
+.input-form:focus {
+  border: #6edda6 1px solid;
+  outline: none;
+}
+
 .upload-load {
   width: 50px;
   height: 50px;
@@ -262,11 +275,12 @@ input[type="file"] {
   margin: 0 0 16px;
 }
 .btn-secondary {
-  background: #2196f3;
+  background: #6edda6;
   border: none;
+  font-weight: bold;
 }
 .btn-secondary:hover {
-  background: #5cadf0;
+  background: #7df0b6;
   color: #fff;
   border: none;
 }

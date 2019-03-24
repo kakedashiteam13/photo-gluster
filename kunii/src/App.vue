@@ -4,7 +4,7 @@
       <!-- Upload Interface -->
       <div id="upload">
         <div v-if="this.$root.$data.loading === false">
-          <img src="../assets/image/logo.png" alt="ロゴ">
+          <img src="../assets/image/logo.svg" alt="ロゴ" class="title-logo">
 
           <!-- Form for file choose, caption text and submission -->
           <form class="margin-sm" @submit.stop.prevent="handleSubmit">
@@ -12,13 +12,13 @@
               <b-form-file plain @change="captureFile"/>
             </div>
             <input type="text" v-model="userName" class="input-form" placeholder="ニックネーム">
+            <input type="text" v-model="fNumber" class="input-form" placeholder="F値">
             <input
               type="text"
               v-model="shutterSpeedValue"
               class="input-form"
               placeholder="シャッタースピード"
             >
-            <input type="text" v-model="fNumber" class="input-form" placeholder="F値">
             <input type="text" v-model="iso" class="input-form" placeholder="ISO値">
             <b-button class="margin-xs" variant="secondary" @click="handleOk">投稿</b-button>
           </form>
@@ -37,7 +37,7 @@
               <p>
                 <span class="photo-card__meta-text">F</span>
                 <span class="photo-card__meta-text--value">{{ item.fNumber }}</span>
-                <span class="photo-card__meta-text">SS</span>
+                <span class="photo-card__meta-text">ShutterSpeed</span>
                 <span class="photo-card__meta-text--value">{{ item.shutterSpeedValue }}</span>
                 <span class="photo-card__meta-text">ISO</span>
                 <span class="photo-card__meta-text--value">{{ item.iso }}</span>
@@ -132,40 +132,43 @@ export default {
           })
         )
         .then(async () => {
-            const query = this.$root.contract.methods
-            .sendHash(
-              imgHash,
-              userNameHash,
-              shutterSpeedValueHash,
-              fNumberHash,
-              isoHash
-            )
-            //Sender Address
-            var process_env_address = "0xbF49a6fF10E9C4Cf5fd9942F6a5C7fB40FCc0Fa0"
-            //Sender Privatekey
-            var process_env_privkey = "0xCF3F5DB122AF0326A9D2308898F6CA70325448EB62CB800A51B8981F9266DBB4"
+          const query = this.$root.contract.methods.sendHash(
+            imgHash,
+            userNameHash,
+            shutterSpeedValueHash,
+            fNumberHash,
+            isoHash
+          );
+          //Sender Address
+          var process_env_address =
+            "0xbF49a6fF10E9C4Cf5fd9942F6a5C7fB40FCc0Fa0";
+          //Sender Privatekey
+          var process_env_privkey =
+            "0xCF3F5DB122AF0326A9D2308898F6CA70325448EB62CB800A51B8981F9266DBB4";
 
-            const contractAddress = "0xbc4b492fbf7fe38df290d851594166f2424ae89b";
-            const encodedABI = query.encodeABI()
-            console.log(encodedABI)
-            const signedTx = await web3js.eth.accounts.signTransaction(
-              {
-                data: encodedABI,
-                from: process_env_address,
-                gas: 600000,
-                gasPrice: 10000000000,
-                to: contractAddress,
-              },
-                process_env_privkey,
-                false,
-              );
-            console.log(signedTx)
-            await web3js.eth.sendSignedTransaction(signedTx.rawTransaction).then(function(val){
-              console.log(val)
-              console.log("Done!")
+          const contractAddress = "0xbc4b492fbf7fe38df290d851594166f2424ae89b";
+          const encodedABI = query.encodeABI();
+          console.log(encodedABI);
+          const signedTx = await web3js.eth.accounts.signTransaction(
+            {
+              data: encodedABI,
+              from: process_env_address,
+              gas: 600000,
+              gasPrice: 10000000000,
+              to: contractAddress
+            },
+            process_env_privkey,
+            false
+          );
+          console.log(signedTx);
+          await web3js.eth
+            .sendSignedTransaction(signedTx.rawTransaction)
+            .then(function(val) {
+              console.log(val);
+              console.log("Done!");
             });
-            console.log("Operation Finished! Refetching...");
-            this.$root.getPosts();
+          console.log("Operation Finished! Refetching...");
+          this.$root.getPosts();
         });
     },
     /**
@@ -197,6 +200,10 @@ export default {
   width: 50px;
   height: 50px;
 }
+.title-logo {
+  width: 240px;
+}
+
 .card img {
   object-fit: cover;
   width: 240px;

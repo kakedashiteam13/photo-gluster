@@ -145,7 +145,7 @@ export default {
             //Sender Privatekey
             var process_env_privkey = "0xCF3F5DB122AF0326A9D2308898F6CA70325448EB62CB800A51B8981F9266DBB4"
 
-            const contractAddress = "0x8e4d8e49b941badc9e3e8eb27899042af1e15577";
+            const contractAddress = "0xbc4b492fbf7fe38df290d851594166f2424ae89b";
             const encodedABI = query.encodeABI()
             console.log(encodedABI)
             const signedTx = await web3js.eth.accounts.signTransaction(

@@ -1,5 +1,5 @@
 import web3 from './web3';
-const address = "0x8e4d8e49b941badc9e3e8eb27899042af1e15577";
+const address = "0xbc4b492fbf7fe38df290d851594166f2424ae89b";
 const abi = [
 	{
 		"constant": false,

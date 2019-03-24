@@ -11,15 +11,17 @@
             <div class="border-style">
               <b-form-file plain @change="captureFile"/>
             </div>
-            <input type="text" v-model="userName" class="input-form" placeholder="ニックネーム">
-            <input type="text" v-model="fNumber" class="input-form" placeholder="F値">
-            <input
-              type="text"
-              v-model="shutterSpeedValue"
-              class="input-form"
-              placeholder="シャッタースピード"
-            >
-            <input type="text" v-model="iso" class="input-form" placeholder="ISO値">
+            <div class="form-metadata">
+              <input type="text" v-model="userName" class="input-form" placeholder="ニックネーム">
+              <input type="text" v-model="fNumber" class="input-form" placeholder="F値">
+              <input
+                type="text"
+                v-model="shutterSpeedValue"
+                class="input-form"
+                placeholder="シャッタースピード"
+              >
+              <input type="text" v-model="iso" class="input-form" placeholder="ISO値">
+            </div>
             <b-button class="margin-xs" variant="secondary" @click="handleOk">投稿</b-button>
           </form>
         </div>
@@ -213,7 +215,7 @@ export default {
   text-align: left;
   margin: 20px;
   border: none;
-  width: 240px;
+  /* width: 240px; */
 }
 .card-body {
   padding: 8px;
@@ -226,6 +228,7 @@ export default {
   text-align: justify;
   margin-top: 10px;
 }
+
 #upload {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -235,9 +238,14 @@ export default {
   margin: 0 auto;
   width: 720px;
 }
+.form-metadata {
+  /* display: flex; */
+}
+
 input[type="file"] {
   border-radius: 4px;
   margin: 0 auto;
+  /* max-width: 673px; */
   width: 673px;
 }
 .form-control-file {
@@ -293,5 +301,42 @@ input[type="file"] {
 }
 .username {
   color: #666;
+}
+
+@media screen and (max-width: 648px) {
+  .title-logo {
+    margin-top: 24px;
+    width: 144px;
+  }
+  #upload {
+    width: 300px;
+    margin-bottom: 24px;
+  }
+
+  input[type="file"] {
+    border-radius: 4px;
+    margin: 0 auto;
+    /* max-width: 673px; */
+    width: 300px;
+  }
+  .input-form {
+    margin: 0 4px 4px 0;
+    height: 28px;
+    padding: 8px;
+  }
+
+  .photo-contents li:nth-of-type(2n + 1) {
+    margin-right: 8px;
+  }
+
+  .card {
+    margin: 0;
+    width: 160px;
+  }
+
+  .card img {
+    width: 160px;
+    height: 160px;
+  }
 }
 </style>

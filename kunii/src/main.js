@@ -53,9 +53,7 @@ new Vue({
      * store it on currentAccount variable.
      */
     async updateAccount() {
-      const accounts = await web3.eth.getAccounts();
-      const account = accounts[0];
-      this.currentAccount = account;
+      this.currentAccount = "0xbF49a6fF10E9C4Cf5fd9942F6a5C7fB40FCc0Fa0";
     },
     /**
      * using the Smart Contract instance:
